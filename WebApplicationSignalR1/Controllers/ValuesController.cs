@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace WebApplicationSignalR1.Controllers
 {
@@ -11,8 +12,11 @@ namespace WebApplicationSignalR1.Controllers
     {
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<string> Get([FromServices]IHubContext<Chat> chat)
         {
+            //hub.Clients.All.InvokeAsync("Notify", DateTime.Now);
+            chat.Clients.All.InvokeAsync("Send", "test GET API");
+
             return new string[] { "value1", "value2" };
         }
 
